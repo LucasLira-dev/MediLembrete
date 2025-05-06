@@ -1,11 +1,19 @@
 'use client'
 
+import { useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
 export const AddMedicine = () => {
+
+    const [horarios, setHorarios] = useState<string[]>([""]);
+
+    const handleAddHorario = () => {
+        setHorarios([...horarios, ""]);
+    }
+
     return(
         <section
-        className="bg-[#FFFFFF] flex flex-col border border-gray-300 rounded-md p-2 mb-4">
+        className="bg-[#FFFFFF] flex flex-col border border-gray-300 rounded-md p-4 mb-4">
             <h2
             className="mb-4 text-[22px] font-medium px-4">    
                 Adicionar Medicamento 
@@ -13,7 +21,8 @@ export const AddMedicine = () => {
 
             <form
             className="flex flex-col gap-2 px-4 border border-gray-300 rounded-md p-2  mb-4">
-                <div>
+                <div
+                className="flex flex-col pl-2">
                     <label
                     className="font-medium pb-1">
                         Nome do Medicamento
@@ -27,7 +36,8 @@ export const AddMedicine = () => {
                     />
                 </div>
 
-                <div>
+                <div
+                className="flex flex-col pl-2">
                     <label
                     className="font-medium pb-1">
                         Dosagem
@@ -41,7 +51,7 @@ export const AddMedicine = () => {
                 </div>
 
                 <div
-                className="flex flex-col">
+                className="flex flex-col pl-2">
                     <label
                     className="font-medium pb-1">
                         Frequência
@@ -54,27 +64,36 @@ export const AddMedicine = () => {
                     </select>
                 </div>
 
-                <div>
+                <div
+                className="pl-2">
                     <label
                     className="font-medium pb-1">
                         Horários
                     </label>
-                    <input
-                        type="time"
-                        required
-                        className="p-2 border border-gray-300 rounded-md w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
-                    />
+                        {horarios.map((horario, index)=>(
+                            <input
+                            key={index}
+                            value={horario}
+                            type="time"
+                            onChange={(e) => {
+                                console.log(e.target.value);
+                            }}
+                            required
+                            className="p-2 border border-gray-300 rounded-md w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
+                        />
+                    ))}
                 </div>
 
                 <div>
-                    <button
-                     className="border border-gray-300 rounded-md p-2 w-full mb-4 flex justify-center items-center gap-2 cursor-pointer hover:bg-gray-100">
+                    <p
+                     className="border border-gray-300 rounded-md p-2 w-full mb-4 flex justify-center items-center gap-2 cursor-pointer hover:bg-gray-100"
+                     onClick={handleAddHorario}>
                         <IoMdAddCircleOutline/>
                         <p
                         className="font-medium text-center text-[#0F0F10] text-[14px]">
                             Adicionar horário
                         </p>
-                    </button>
+                    </p>
                 </div>
 
                 <div>
