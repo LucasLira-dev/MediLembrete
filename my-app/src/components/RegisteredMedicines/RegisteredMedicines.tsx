@@ -53,7 +53,7 @@ export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegistered
     return(
         
             <article
-            className="bg-[#FFFFFF] flex flex-col gap-4 border border-gray-300 rounded-md p-4 mb-4 w-full data-[deleted=true]:hidden"
+            className="bg-[#1F2937] flex flex-col gap-4 rounded-md p-4 mb-4 w-full data-[deleted=true]:hidden"
             data-deleted={isDeleted}>
                 <div
                 className="flex justify-between items-center">
@@ -86,9 +86,9 @@ export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegistered
                         <div
                         key={index}
                         data-tomou={tomei}
-                        className='flex gap-2 justify-center items-center text-[12px] font-medium rounded-full bg-[#EFF6FF] p-1 w-[80px] text-[#1D4ED8] data-[tomou=true]:text-[#16A34A] data-[tomou=true]:bg-[#D1FAE5]'>
+                        className='flex gap-2 justify-center items-center text-[12px] font-medium rounded-full bg-[#1E2C48] p-1 w-[80px] text-[#375cc3] data-[tomou=true]:text-[#16A34A]'>
                             <CiClock2
-                            className='text-[#1D4ED8]'/>
+                            className='text-[#3B82F6]'/>
                              <span> 
                                 {horario}
                             </span>
@@ -108,9 +108,9 @@ export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegistered
                 </div>
 
                 <div
-                className='flex gap-2  items-center font-medium rounded-full bg-[#EFF6FF] p-1 pl-6 mb-4  text-[#1D4ED8] md:m-w-[200px]'>
+                className='flex gap-2  items-center font-medium rounded-full bg-[#1E2C48] p-1 pl-6 mb-4 md:m-w-[200px]'>
                     <CiClock2
-                    className='text-[#1D4ED8]'/>
+                    className='text-[#3B82F6]'/>
                     <div
                     className="flex ">
                         <p> Próxima dose: { tomei ? <p> Parabens </p> : proximaDose } </p>
@@ -121,7 +121,7 @@ export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegistered
                 <div
                 className="flex px-2 gap-4 w-full">
                     <div
-                    className="flex items-center justify-center w-full gap-2 mb-2 border  border-gray-300 rounded-sm p-2 cursor-pointer hover:bg-gray-100">
+                    className="flex items-center justify-center w-full gap-2 mb-2 border  border-gray-300 rounded-sm p-2 cursor-pointer hover:bg-[#04102E]">
                         <FaRegEdit/>
                         <p> editar </p>
                     </div>

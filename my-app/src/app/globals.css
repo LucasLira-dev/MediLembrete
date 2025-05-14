@@ -2,6 +2,7 @@
 
 
 
-body{
-  background-color: #F0F6FF;
+body {
+  background: linear-gradient(to bottom, #111827, #030712);
+  color: white;
 }

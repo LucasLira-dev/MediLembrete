@@ -2,6 +2,7 @@
 
 // import { AddMedicine } from "@/components/AddMedicines/AddMedicines";
 import { Header } from "@/components/Header/Header";
+import { Footer } from "@/components/Footer/Footer";
 import { RegisteredMedicines } from "@/components/RegisteredMedicines/RegisteredMedicines";
 import { NoMedication } from "@/components/NoMedication/NoMedication";
 
@@ -56,25 +57,25 @@ export default function Home() {
         <article
         className="p-4 flex-2 lg:max-w-[400px]">
                     <article
-                    className="bg-[#FFFFFF] flex flex-col border border-gray-300 rounded-md p-4 mb-4">
+                    className="bg-[#1f2937] flex flex-col rounded-md p-4 mb-4">
                         <h2
                         className="mb-4 text-[22px] font-medium px-4">    
                             Adicionar Medicamento 
                         </h2>
             
                         <form
-                        className="flex flex-col gap-2 px-4 border border-gray-300 rounded-md p-2  mb-4">
+                        className="flex flex-col gap-2 px-4 bg-[#04102E] rounded-md p-2  mb-4">
                             <div
                             className="flex flex-col pl-2">
                                 <label
-                                className="font-medium pb-1">
+                                className="font-medium pb-1 mt-2">
                                     Nome do Medicamento
                                 </label>
                                 <input
                                     type="text"
                                     placeholder="Ex: Paracetamol"
                                     required
-                                    className="border border-gray-300 rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
+                                    className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
                                     onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
@@ -89,7 +90,7 @@ export default function Home() {
                                     type="text"
                                     placeholder="Ex: 500mg"
                                     required
-                                    className="border border-gray-300 rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
+                                    className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
                                     onChange={(e) => setDosagem(parseInt(e.target.value))}
                                 />
                             </div>
@@ -101,7 +102,7 @@ export default function Home() {
                                     Frequência
                                 </label>
                                 <select
-                                className="border border-gray-300 rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]">
+                                className="bg-[#020817]  rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]">
                                     <option value="Diariamente"> Diariamente </option>
                                     <option value="Semanalmente"> Semanalmente </option>
                                     <option value="Mensalmente"> Mensalmente </option>
@@ -127,18 +128,18 @@ export default function Home() {
                                             })
                                         }}
                                         required
-                                        className="p-2 border border-gray-300 rounded-md w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
+                                        className="p-2 bg-[#020817] rounded-md w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
                                     />
                                 ))}
                             </div>
             
                             <div>
                                 <p
-                                className="border border-gray-300 rounded-md p-2 w-full mb-4 flex justify-center items-center gap-2 cursor-pointer hover:bg-gray-100"
+                                className="bg-[#020817] rounded-md p-2 w-full mb-4 flex justify-center items-center gap-2 cursor-pointer hover:bg-[#1D4ED8] hover:text-white"
                                 onClick={handleAddHorario}>
                                     <IoMdAddCircleOutline/>
                                     <p
-                                    className="font-medium text-center text-[#0F0F10] text-[14px]">
+                                    className="font-medium text-center text-[14px]">
                                         Adicionar horário
                                     </p>
                                 </p>
@@ -147,7 +148,7 @@ export default function Home() {
                             <div>
                                 <button
                                 onClick={() => setIsOpen(true)}
-                                className="bg-[#0F0F10] text-white p-2 rounded-lg w-full cursor-pointer hover:bg-[#383839]"
+                                className="bg-[#3B82F6] text-white mb-2 p-2 rounded-lg w-full cursor-pointer hover:bg-[#1D4ED8] hover:text-white"
                                 >
                                     Salvar Medicamento
                                 </button>
@@ -158,6 +159,8 @@ export default function Home() {
 
 
       </section>
+
+      <Footer/>
       
     </main>
   );

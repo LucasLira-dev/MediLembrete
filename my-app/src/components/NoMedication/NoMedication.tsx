@@ -3,9 +3,9 @@ import { IoMdAddCircleOutline } from "react-icons/io"
 export const NoMedication = () => {
     return(
         <div
-        className="flex flex-col items-center justify-center gap-2 bg-[#FFFFFF] border border-gray-300 rounded-md p-8 mb-4 w-full">
+        className="flex flex-col items-center justify-center gap-2 bg-[#1A1A1A] rounded-md p-10 mb-4 w-full">
             <span
-            className="rounded-full bg-[#DBEAFE] p-3">
+            className="rounded-full bg-[#04102E] p-3">
                 <IoMdAddCircleOutline 
                 size={24}
                 className="text-[#2563EB]" 
