@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import {RiDeleteBin6Line} from 'react-icons/ri';
 import { CiClock2 } from "react-icons/ci";
@@ -32,34 +32,34 @@ export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegistered
 
     const [tomei, setTomei] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
-    const [proximaDose, setProximaDose] = useState<string | null>(null);
+    // const [proximaDose, setProximaDose] = useState<string | null>(null);
 
+    // useEffect(() => {
+    //     const calcularProximaDose = () => {
+    //         const agora = new Date();
+    //         const horariosOrdenados = horariosSalvos
+    //             .map(horario => {
+    //                 const [horas, minutos] = horario.split(':').map(Number);
+    //                 const horarioDate = new Date();
+    //                 horarioDate.setHours(horas, minutos, 0, 0);
+    //                 return horarioDate;
+    //             })
+    //             .sort((a, b) => a.getTime() - b.getTime());
 
-    useEffect(() => {
-        const calcularProximaDose = () => {
-            const agora = new Date();
-            const horariosOrdenados = horariosSalvos
-                .map(horario => {
-                    const [horas, minutos] = horario.split(':').map(Number);
-                    const horarioDate = new Date();
-                    horarioDate.setHours(horas, minutos, 0, 0);
-                    return horarioDate;
-                })
-                .sort((a, b) => a.getTime() - b.getTime());
+    //         const proximoHorario = horariosOrdenados.find(horario => horario > agora);
+    //         if (proximoHorario) {
+    //             setProximaDose(proximoHorario.toTimeString().slice(0, 5)); // Formato HH:mm
+    //         } else if (horariosOrdenados.length > 0) {
+    //             // Se todos os horários já passaram, pega o primeiro do próximo dia
+    //             setProximaDose(horariosOrdenados[0].toTimeString().slice(0, 5));
+    //         } else {
+    //             setProximaDose(null);
+    //         }
+    //     };
 
-            const proximoHorario = horariosOrdenados.find(horario => horario > agora);
-            if (proximoHorario) {
-                setProximaDose(proximoHorario.toTimeString().slice(0, 5)); // Formato HH:mm
-            } else if (horariosOrdenados.length > 0) {
-                // Se todos os horários já passaram, pega o primeiro do próximo dia
-                setProximaDose(horariosOrdenados[0].toTimeString().slice(0, 5));
-            } else {
-                setProximaDose(null);
-            }
-        };
+    //     calcularProximaDose();
+    // }, [horariosSalvos]);
 
-        calcularProximaDose();
-    }, [horariosSalvos]);
 
     return (
       <article
@@ -83,24 +83,23 @@ export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegistered
         <div className="flex flex-col gap-1 px-4 mb-4">
           <h3> Horários: </h3>
           <div className="flex gap-2">
-            {horariosSalvos.map((horario, index) => (
+           
               <div
-                key={index}
                 data-tomou={tomei}
                 className="flex gap-2 justify-center items-center text-[12px] font-medium rounded-full bg-[#1E2C48] p-1 w-[80px] text-[#375cc3] data-[tomou=true]:text-[#16A34A]"
               >
                 <CiClock2 className="text-[#3B82F6]" />
-                <span>{horario}</span>
+                <span> {horariosSalvos}</span>
                 {tomei && <FaCheck className="text-[#16A34A]" />}
               </div>
-            ))}
+            
           </div>
         </div>
 
         <div className="flex gap-2  items-center font-medium rounded-full bg-[#1E2C48] p-1 pl-6 mb-4 md:m-w-[200px]">
           <CiClock2 className="text-[#3B82F6]" />
           <div className="flex ">
-            <p> Próxima dose: {tomei ? <p> Parabens </p> : proximaDose} </p>
+            {/* <p> Próxima dose: {tomei ? <p> Parabens </p> : proximaDose} </p> */}
           </div>
         </div>
 
@@ -142,16 +141,14 @@ export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegistered
 
                         <div className="flex flex-col pl-2">
                             <label className="font-medium pb-1"> Horários </label>
-                            {horariosSalvos.map((horario, index) => (
+                            
                                 <input
-                                    key={index}
-                                    placeholder={horario}
+                                    
                                     type="time"
                                     onChange={() => {}} // Adicione um handler real para atualizar o horário
                                     required
                                     className="p-2 bg-[#020817] rounded-md w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8] placeholder:text-[#737882]"
                                 />
-                            ))}
                         </div>
 
                         <div>
