@@ -6,19 +6,21 @@ import { Footer } from "@/components/Footer/Footer";
 import { RegisteredMedicines } from "@/components/RegisteredMedicines/RegisteredMedicines";
 import { NoMedication } from "@/components/NoMedication/NoMedication";
 
+
 import { useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
 import { API_MideLembrete } from "@/shared/service/index";
+import Loading from "@/components/Loading/loading";
 
 export default function Home() {
-  //   const [horarios, setHorarios] = useState<string[]>([""]);
+    const [horarios, setHorarios] = useState(0);
 
   //   const [horariosSalvos, setHorariosSalvos] = useState<string[]>([]);
 
-  //   const [name, setName] = useState<string>("");
+    const [name, setName] = useState<string>("");
 
-  //   const [dosagem, setDosagem] = useState(0);
+    const [dosagem, setDosagem] = useState(0);
 
   //   const [isOpen, setIsOpen] = useState(true);
 
@@ -46,9 +48,11 @@ export default function Home() {
           <h2 className=" text-[22px] font-medium p-4">Seus Medicamentos</h2>
 
           <div
-          className="flex flex-col sm:flex-row gap-2">
+          className="flex flex-col sm:flex-row gap-2 min-h-[200px]">
           {medicamentos === undefined ? (
-            <p>Carregando...</p>
+            <div className="w-full h-full">
+              <Loading className="h-full" />
+            </div>
           ) : medicamentos.length > 0 ? (
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             medicamentos.map((med: any, id: number) => (
@@ -73,7 +77,20 @@ export default function Home() {
               Adicionar Medicamento
             </h2>
 
-            <form className="flex flex-col gap-2 px-4 bg-[#04102E] rounded-md p-2  mb-4">
+            <form 
+            className="flex flex-col gap-2 px-4 bg-[#04102E] rounded-md p-2  mb-4"
+            onSubmit={async (e) => {
+                e.preventDefault();
+
+                const novoMedicamento = {
+                  nome_medicamento: name,
+                  dosagem_medicamento: dosagem,
+                  horarios_medicamento: horarios
+                }
+
+                await API_MideLembrete.create(novoMedicamento)
+
+            }}>
               <div className="flex flex-col pl-2">
                 <label className="font-medium pb-1 mt-2">
                   Nome do Medicamento
@@ -83,7 +100,7 @@ export default function Home() {
                   placeholder="Ex: Paracetamol"
                   required
                   className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
-                  // onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
 
@@ -94,7 +111,7 @@ export default function Home() {
                   placeholder="Ex: 500mg"
                   required
                   className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
-                  // onChange={(e) => setDosagem(parseInt(e.target.value))}
+                  onChange={(e) => setDosagem(parseInt(e.target.value))}
                 />
               </div>
 
@@ -109,22 +126,9 @@ export default function Home() {
 
               <div className="pl-2">
                 <label className="font-medium pb-1">Horários</label>
-                {/* {horarios.map((horario, index)=>(
-                                        <input
-                                        key={index}
-                                        value={horario}
-                                        type="time"
-                                        onChange={(e) => {
-                                            setHorariosSalvos(prev => {
-                                                const updatedHorarios = [...prev];
-                                                updatedHorarios[index] = e.target.value;
-                                                return updatedHorarios;
-                                            })
-                                        }}
-                                        required
-                                        className="p-2 bg-[#020817] rounded-md w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
-                                    />
-                                ))} */}
+                <input type="time" 
+                className="p-2 bg-[#020817] rounded-md w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
+                onChange={(e)=> setHorarios(parseInt(e.target.value))}/>
               </div>
 
               <div>
@@ -137,8 +141,7 @@ export default function Home() {
               </div>
 
               <div>
-                <button
-                  // onClick={() => setIsOpen(true)}
+                <button type="submit"
                   className="bg-[#3B82F6] text-white mb-2 p-2 rounded-lg w-full cursor-pointer hover:bg-[#1D4ED8] hover:text-white"
                 >
                   Salvar Medicamento
