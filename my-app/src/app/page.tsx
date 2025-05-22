@@ -11,10 +11,10 @@ import { useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
 import { API_MideLembrete } from "@/shared/service/index";
-import Loading from "@/components/Loading/loading";
+import Loading from "@/components/Loading/Loading";
 
 export default function Home() {
-    const [horarios, setHorarios] = useState(0);
+    const [horarios, setHorarios] = useState<string>("");
 
   //   const [horariosSalvos, setHorariosSalvos] = useState<string[]>([]);
 
@@ -40,7 +40,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex flex-col min-h-screen bg-[#d9dbdd]gap-2">
+    <main className="flex flex-col min-h-screen gap-2">
       <Header />
 
       <section className="flex flex-col mt-4 lg:flex-row lg:ml-4">
@@ -48,7 +48,7 @@ export default function Home() {
           <h2 className=" text-[22px] font-medium p-4">Seus Medicamentos</h2>
 
           <div
-          className="flex flex-col sm:flex-row gap-2 min-h-[200px]">
+          className="flex flex-col sm:flex-row sm:flex-wrap gap-2 min-h-[200px]">
           {medicamentos === undefined ? (
             <div className="w-full h-full">
               <Loading className="h-full" />
@@ -79,18 +79,54 @@ export default function Home() {
 
             <form 
             className="flex flex-col gap-2 px-4 bg-[#04102E] rounded-md p-2  mb-4"
+            // onSubmit={async (e) => {
+            //     e.preventDefault();
+
+            //     const novoMedicamento = {
+            //       nome_medicamento: name,
+            //       dosagem_medicamento: dosagem,
+            //       horarios_medicamento: horarios
+            //     }
+
+            //     await API_MideLembrete.create(novoMedicamento)
             onSubmit={async (e) => {
-                e.preventDefault();
+    e.preventDefault();
 
-                const novoMedicamento = {
-                  nome_medicamento: name,
-                  dosagem_medicamento: dosagem,
-                  horarios_medicamento: horarios
-                }
+    // Verifica se os campos obrigatórios estão preenchidos
+    if (!name || !dosagem || !horarios) {
+      alert("Preencha todos os campos!");
+      return;
+    }
 
-                await API_MideLembrete.create(novoMedicamento)
+    try {
+      // Monta o objeto no formato que a API espera
+      const novoMedicamento = {
+        nome: name,
+        dosagem: dosagem,
+        horario: horarios, // Envia como string
+      };
 
-            }}>
+      console.log("Dados sendo enviados:", novoMedicamento); // Debug
+
+      // Chama a API
+      await API_MideLembrete.create(novoMedicamento);
+
+      // Atualiza a lista de medicamentos
+      const listaAtualizada = await API_MideLembrete.getAll();
+      setMedicamentos(listaAtualizada);
+
+      // Limpa o formulário
+      setName("");
+      setDosagem(0);
+      setHorarios("");
+
+      alert("Medicamento cadastrado com sucesso!");
+
+    } catch (error) {
+      console.error("Erro ao cadastrar:", error);
+      alert("Erro ao cadastrar. Verifique o console.");
+    }}}
+             >
               <div className="flex flex-col pl-2">
                 <label className="font-medium pb-1 mt-2">
                   Nome do Medicamento
@@ -128,7 +164,7 @@ export default function Home() {
                 <label className="font-medium pb-1">Horários</label>
                 <input type="time" 
                 className="p-2 bg-[#020817] rounded-md w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
-                onChange={(e)=> setHorarios(parseInt(e.target.value))}/>
+                onChange={(e)=> setHorarios(e.target.value)}/>
               </div>
 
               <div>

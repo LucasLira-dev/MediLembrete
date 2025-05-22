@@ -63,7 +63,7 @@ export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegistered
 
     return (
       <article
-        className="bg-[#1F2937] flex flex-col gap-4 rounded-md p-4 mb-4 w-full data-[deleted=true]:hidden"
+        className="bg-[#1F2937] flex flex-col gap-4 rounded-md p-4 mb-4 data-[deleted=true]:hidden"
         data-deleted={isDeleted}
       >
         <div className="flex justify-between items-center">
