@@ -42,5 +42,52 @@ export const API_MideLembrete = {
             console.error('Erro completo:', error);
             throw new Error('Erro na comunicação com o servidor');
         }
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    update: async(id: number, medicamento: any) => {
+        try{
+            const response = await fetch(`https://api-medilembrete-production.up.railway.app/medicamento/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(medicamento),
+            })
+
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                // Mostra o erro completo do backend se disponível
+                throw new Error(data.message || `Erro ${response.status}: ${response.statusText}`);
+            }
+
+            return data;
+
+        } catch (error) {
+            console.error('Erro completo:', error);
+            throw new Error('Erro na comunicação com o servidor');
+        }
+    },
+    delete: async(id: number) => {
+        try{
+            const response = await fetch(`https://api-medilembrete-production.up.railway.app/medicamento/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+
+            const data = await response.json();
+
+            if(!data){
+                throw new Error('Erro ao deletar medicamento');
+            }
+
+            return data;
+        }catch(error){
+            console.error('Erro completo:', error);
+            throw new Error('Erro na comunicação com o servidor');
+        }
     }
 };

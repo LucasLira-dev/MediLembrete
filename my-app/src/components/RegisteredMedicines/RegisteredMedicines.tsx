@@ -18,21 +18,31 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
+import { API_MideLembrete } from '@/shared/service';
+
 
 
 interface IRegisteredMedicinesProps {
+    id: number;
     name: string;
     dosagem: number;
-    horariosSalvos: string[]
-}
+    horariosSalvos: string;
+    onUpdate: ()=> void;
+  }
 
 
 
-export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegisteredMedicinesProps) => {
+export const RegisteredMedicines = ({id, name, dosagem, horariosSalvos, onUpdate} :IRegisteredMedicinesProps) => {
 
     const [tomei, setTomei] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
     // const [proximaDose, setProximaDose] = useState<string | null>(null);
+
+    const [open, setOpen] = useState(false);
+
+    const [novoNome, setNovoNome] = useState(name);
+    const [novaDosagem, setNovaDosagem] = useState(dosagem);
+    const [novoHorario, setNovoHorario] = useState(horariosSalvos);
 
     // useEffect(() => {
     //     const calcularProximaDose = () => {
@@ -71,7 +81,10 @@ export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegistered
           <RiDeleteBin6Line
             size={16}
             className="text-[#F37272] cursor-pointer"
-            onClick={() => setIsDeleted(true)}
+            onClick={() => {
+              API_MideLembrete.delete(id)
+              setIsDeleted(true);
+            }}
           />
         </div>
 
@@ -105,9 +118,13 @@ export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegistered
 
 
         <div className="flex px-2 gap-4 w-full">
-          <Dialog>
-            <DialogTrigger asChild>
-              <div className="flex flex-1 items-center justify-center w-full gap-2 border border-gray-300 rounded-sm p-2 cursor-pointer hover:bg-[#04102E] min-h-[40px]">
+          <Dialog
+          open={open}
+          onOpenChange={setOpen}>
+            <DialogTrigger asChild
+            onClick={() => { setOpen(true)}}>
+              <div className="flex flex-1 items-center justify-center w-full gap-2 border border-gray-300 rounded-sm p-2 cursor-pointer hover:bg-[#04102E] min-h-[40px]"
+              >
                 <FaRegEdit />
                 <p>Editar</p>
               </div>
@@ -118,13 +135,29 @@ export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegistered
               <DialogHeader>
                 <DialogTitle> Edite o medicamento </DialogTitle>
                 <DialogDescription>
-                    <form>
+                    <form 
+                    onSubmit={ async (e) => {
+                      e.preventDefault();
+
+                      const medicamentoAtualizado = {
+                        nome: novoNome,
+                        dosagem: novaDosagem,
+                        horario: novoHorario
+                      }
+
+                      await API_MideLembrete.update(id, medicamentoAtualizado)
+                      setOpen(false)
+                      onUpdate()
+                    }
+                    }>
                         <div className="flex flex-col justify-start pl-2">
                             <label className="font-medium pb-1"> Nome do medicamento </label>
                             <input
                                 type="text"
                                 placeholder={name}
-                                onChange={() => {}} // Adicione um handler real para atualizar o nome
+                                onChange={(e) => {
+                                  setNovoNome(e.target.value);
+                                }}
                                 className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8] placeholder:text-[#737882]"
                             />
                         </div>
@@ -134,7 +167,9 @@ export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegistered
                             <input
                                 type="number"
                                 placeholder={dosagem.toString()}
-                                onChange={() => {}} // Adicione um handler real para atualizar a dosagem
+                                onChange={(e) => {
+                                  setNovaDosagem(parseInt(e.target.value));
+                                }} 
                                 className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8] placeholder:text-[#737882]"
                             />
                         </div>
@@ -145,7 +180,9 @@ export const RegisteredMedicines = ({name, dosagem, horariosSalvos} :IRegistered
                                 <input
                                     
                                     type="time"
-                                    onChange={() => {}} // Adicione um handler real para atualizar o horário
+                                    onChange={(e) => {
+                                      setNovoHorario(e.target.value);
+                                    }} 
                                     required
                                     className="p-2 bg-[#020817] rounded-md w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8] placeholder:text-[#737882]"
                                 />
