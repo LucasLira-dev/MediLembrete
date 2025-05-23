@@ -11,6 +11,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 
 import { API_MideLembrete } from "@/shared/service/index";
 import Loading from "@/components/Loading/Loading";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function Home() {
   const [horarios, setHorarios] = useState<string>("");
@@ -26,6 +27,13 @@ export default function Home() {
   //   const handleAddHorario = () => {
   //           setHorarios([...horarios, ""]);
   //       }
+
+  const [alerta, setAlerta] = useState<{title: string, description: string} | null>(null);
+  
+  
+   const mostrarALert = (title: string,  description: string) => {
+        setAlerta({title, description});
+    }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [medicamentos, setMedicamentos] = useState<any[] | undefined>(
@@ -46,6 +54,20 @@ export default function Home() {
   }, []);
 
   return (
+    <>
+    {alerta && (
+          <div
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-md">
+            <Alert
+            className='bg-[#1E2C48] text-[#FFFFFF] p-4 rounded-md flex flex-col justify-center items-center gap-2'>
+              <AlertTitle>{alerta.title}</AlertTitle>
+              <AlertDescription>{alerta.description}</AlertDescription>
+              <button
+              onClick={()=>setAlerta(null)}
+              className="rounded-md bg-[#16A34A] px-10 py-2 text-center cursor-pointer"> Ok </button>
+            </Alert>
+          </div>
+        )}
     <main className="flex flex-col min-h-screen gap-2">
       <Header />
 
@@ -53,7 +75,7 @@ export default function Home() {
         <article className="p-4 flex-1">
           <h2 className=" text-[22px] font-medium p-4">Seus Medicamentos</h2>
 
-          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 min-h-[200px]">
+          <div className="flex sm:justify-center sm:items-center md:items-center md:justify-start flex-col sm:flex-row sm:flex-wrap gap-2 min-h-[200px]">
             {medicamentos === undefined ? (
               <div className="w-full h-full">
                 <Loading className="h-full" />
@@ -89,7 +111,7 @@ export default function Home() {
 
                 // Verifica se os campos obrigatórios estão preenchidos
                 if (!name || !dosagem || !horarios) {
-                  alert("Preencha todos os campos!");
+                  mostrarALert("Erro", "Preencha todos os campos obrigatórios.");
                   return;
                 }
 
@@ -101,7 +123,6 @@ export default function Home() {
                     horario: horarios, // Envia como string
                   };
 
-                  console.log("Dados sendo enviados:", novoMedicamento); // Debug
 
                   // Chama a API
                   await API_MideLembrete.create(novoMedicamento);
@@ -115,10 +136,11 @@ export default function Home() {
                   setDosagem(0);
                   setHorarios("");
 
-                  alert("Medicamento cadastrado com sucesso!");
+                  mostrarALert("Medicamento cadastrado com sucesso!", "O medicamento foi adicionado à sua lista.");
+
                 } catch (error) {
                   console.error("Erro ao cadastrar:", error);
-                  alert("Erro ao cadastrar. Verifique o console.");
+                  mostrarALert("Erro", "Erro ao cadastrar o medicamento.");
                 }
               }}
             >
@@ -130,6 +152,7 @@ export default function Home() {
                   type="text"
                   placeholder="Ex: Paracetamol"
                   required
+                  value={name}
                   className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -141,6 +164,7 @@ export default function Home() {
                   type="text"
                   placeholder="Ex: 500mg"
                   required
+                  value={dosagem}
                   className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
                   onChange={(e) => setDosagem(parseInt(e.target.value))}
                 />
@@ -188,5 +212,6 @@ export default function Home() {
 
       <Footer />
     </main>
+    </>
   );
 }

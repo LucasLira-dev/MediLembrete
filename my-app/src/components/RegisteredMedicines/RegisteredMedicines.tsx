@@ -18,8 +18,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-import { API_MideLembrete } from '@/shared/service';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
+
+import { API_MideLembrete } from '@/shared/service';
 
 
 interface IRegisteredMedicinesProps {
@@ -43,6 +45,13 @@ export const RegisteredMedicines = ({id, name, dosagem, horariosSalvos, onUpdate
     const [novoNome, setNovoNome] = useState(name);
     const [novaDosagem, setNovaDosagem] = useState(dosagem);
     const [novoHorario, setNovoHorario] = useState(horariosSalvos);
+
+    const [alerta, setAlerta] = useState<{title: string, description: string} | null>(null);
+
+
+    const mostrarALert = (title: string,  description: string) => {
+        setAlerta({title, description});
+    }
 
     // useEffect(() => {
     //     const calcularProximaDose = () => {
@@ -71,11 +80,25 @@ export const RegisteredMedicines = ({id, name, dosagem, horariosSalvos, onUpdate
     // }, [horariosSalvos]);
 
 
-    return (
-      <article
-        className="bg-[#1F2937] flex flex-col gap-4 rounded-md p-4 mb-4 data-[deleted=true]:hidden"
-        data-deleted={isDeleted}
-      >
+return (
+  <>
+    {alerta && (
+      <div
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-md">
+        <Alert
+        className='bg-[#1E2C48] text-[#FFFFFF] p-4 rounded-md flex flex-col justify-center items-center gap-2'>
+          <AlertTitle>{alerta.title}</AlertTitle>
+          <AlertDescription>{alerta.description}</AlertDescription>
+          <button
+          onClick={()=>setAlerta(null)}
+          className="rounded-md bg-[#16A34A] px-10 py-2 text-center cursor-pointer"> Ok </button>
+        </Alert>
+      </div>
+    )}
+    <article
+      className="bg-[#1F2937] sm:min-w-[280px] md:min-w-[320px] lg:min-w-[220px] xl:min-w-[300px] flex flex-col gap-4 justify-center rounded-md p-4 mb-4 data-[deleted=true]:hidden"
+      data-deleted={isDeleted}
+    >
         <div className="flex justify-between items-center">
           <h2 className="mb-1 text-[22px] font-bold px-4">{name}</h2>
           <RiDeleteBin6Line
@@ -83,6 +106,7 @@ export const RegisteredMedicines = ({id, name, dosagem, horariosSalvos, onUpdate
             className="text-[#F37272] cursor-pointer"
             onClick={() => {
               API_MideLembrete.delete(id)
+              mostrarALert("Medicamento Deletado", "O medicamento foi deletado com sucesso")
               setIsDeleted(true);
             }}
           />
@@ -123,7 +147,7 @@ export const RegisteredMedicines = ({id, name, dosagem, horariosSalvos, onUpdate
           onOpenChange={setOpen}>
             <DialogTrigger asChild
             onClick={() => { setOpen(true)}}>
-              <div className="flex flex-1 items-center justify-center w-full gap-2 border border-gray-300 rounded-sm p-2 cursor-pointer hover:bg-[#04102E] min-h-[40px]"
+              <div className="flex flex-1 items-center justify-center w-full gap-2 border border-</DialogTrigger>gray-300 rounded-sm p-2 cursor-pointer hover:bg-[#04102E] min-h-[40px]"
               >
                 <FaRegEdit />
                 <p>Editar</p>
@@ -147,6 +171,7 @@ export const RegisteredMedicines = ({id, name, dosagem, horariosSalvos, onUpdate
 
                       await API_MideLembrete.update(id, medicamentoAtualizado)
                       setOpen(false)
+                      mostrarALert("Medicamento Atualizado", "O medicamento foi atualizado com sucesso")
                       onUpdate()
                     }
                     }>
@@ -221,5 +246,7 @@ export const RegisteredMedicines = ({id, name, dosagem, horariosSalvos, onUpdate
           </div>
         </div>
       </article>
+      </>
     );
+
 }
