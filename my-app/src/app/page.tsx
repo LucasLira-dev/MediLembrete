@@ -7,33 +7,23 @@ import { RegisteredMedicines } from "@/components/RegisteredMedicines/Registered
 import { NoMedication } from "@/components/NoMedication/NoMedication";
 
 import { useEffect, useState } from "react";
-import { IoMdAddCircleOutline } from "react-icons/io";
+// import { IoMdAddCircleOutline } from "react-icons/io";
 
 import { API_MideLembrete } from "@/shared/service/index";
 import Loading from "@/components/Loading/Loading";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+import Form from 'next/form'
+import cadastrarMedicamento from "./actions";
 
 export default function Home() {
-  const [horarios, setHorarios] = useState<string>("");
-
-  //   const [horariosSalvos, setHorariosSalvos] = useState<string[]>([]);
-
-  const [name, setName] = useState<string>("");
-
-  const [dosagem, setDosagem] = useState(0);
-
-  //   const [isOpen, setIsOpen] = useState(true);
-
-  //   const handleAddHorario = () => {
-  //           setHorarios([...horarios, ""]);
-  //       }
-
+  
   const [alerta, setAlerta] = useState<{title: string, description: string} | null>(null);
   
   
-   const mostrarALert = (title: string,  description: string) => {
-        setAlerta({title, description});
-    }
+  const mostrarALert = (title: string,  description: string) => {
+    setAlerta({title, description});
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [medicamentos, setMedicamentos] = useState<any[] | undefined>(
@@ -104,45 +94,14 @@ export default function Home() {
               Adicionar Medicamento
             </h2>
 
-            <form
-              className="flex flex-col gap-2 px-4 bg-[#04102E] rounded-md p-2  mb-4"
-              onSubmit={async (e) => {
-                e.preventDefault();
-
-                // Verifica se os campos obrigatórios estão preenchidos
-                if (!name || !dosagem || !horarios) {
-                  mostrarALert("Erro", "Preencha todos os campos obrigatórios.");
-                  return;
-                }
-
-                try {
-                  // Monta o objeto no formato que a API espera
-                  const novoMedicamento = {
-                    nome: name,
-                    dosagem: dosagem,
-                    horario: horarios, // Envia como string
-                  };
-
-
-                  // Chama a API
-                  await API_MideLembrete.create(novoMedicamento);
-
-                  // Atualiza a lista de medicamentos
-                  const listaAtualizada = await API_MideLembrete.getAll();
-                  setMedicamentos(listaAtualizada);
-
-                  // Limpa o formulário
-                  setName("");
-                  setDosagem(0);
-                  setHorarios("");
-
-                  mostrarALert("Medicamento cadastrado com sucesso!", "O medicamento foi adicionado à sua lista.");
-
-                } catch (error) {
-                  console.error("Erro ao cadastrar:", error);
-                  mostrarALert("Erro", "Erro ao cadastrar o medicamento.");
-                }
+            <Form
+              action={async (formData: FormData) => {
+                await cadastrarMedicamento(formData);
+                buscarMedicamentos();
+                mostrarALert("Medicamento cadastrado com sucesso!", "O medicamento foi adicionado à sua lista.");
+                
               }}
+              className="flex flex-col gap-2 px-4 bg-[#04102E] rounded-md p-2  mb-4"
             >
               <div className="flex flex-col pl-2">
                 <label className="font-medium pb-1 mt-2">
@@ -152,21 +111,19 @@ export default function Home() {
                   type="text"
                   placeholder="Ex: Paracetamol"
                   required
-                  value={name}
+                  name="nome"
                   className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
-                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
 
               <div className="flex flex-col pl-2">
                 <label className="font-medium pb-1">Dosagem</label>
                 <input
-                  type="text"
+                  type="number"
                   placeholder="Ex: 500mg"
                   required
-                  value={dosagem}
+                  name="dosagem"
                   className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
-                  onChange={(e) => setDosagem(parseInt(e.target.value))}
                 />
               </div>
 
@@ -183,19 +140,19 @@ export default function Home() {
                 <label className="font-medium pb-1">Horários</label>
                 <input
                   type="time"
+                  name="horario"
                   className="p-2 bg-[#020817] rounded-md w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8]"
-                  onChange={(e) => setHorarios(e.target.value)}
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <div className="bg-[#020817] rounded-md p-2 w-full mb-4 flex justify-center items-center gap-2 cursor-pointer hover:bg-[#1D4ED8] hover:text-white">
                   <IoMdAddCircleOutline />
                   <p className="font-medium text-center text-[14px]">
                     Adicionar horário
                   </p>
                 </div>
-              </div>
+              </div> */}
 
               <div>
                 <button
@@ -205,7 +162,7 @@ export default function Home() {
                   Salvar Medicamento
                 </button>
               </div>
-            </form>
+            </Form>
           </article>
         </article>
       </section>

@@ -8,6 +8,8 @@ import { LuPill } from "react-icons/lu";
 import { FaRegEdit } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
 
+import Form from 'next/form'
+
 
 import {
   Dialog,
@@ -22,6 +24,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 
 import { API_MideLembrete } from '@/shared/service';
+import medicamentoEditado from './actions';
 
 
 interface IRegisteredMedicinesProps {
@@ -41,10 +44,6 @@ export const RegisteredMedicines = ({id, name, dosagem, horariosSalvos, onUpdate
     // const [proximaDose, setProximaDose] = useState<string | null>(null);
 
     const [open, setOpen] = useState(false);
-
-    const [novoNome, setNovoNome] = useState(name);
-    const [novaDosagem, setNovaDosagem] = useState(dosagem);
-    const [novoHorario, setNovoHorario] = useState(horariosSalvos);
 
     const [alerta, setAlerta] = useState<{title: string, description: string} | null>(null);
 
@@ -159,30 +158,20 @@ return (
               <DialogHeader>
                 <DialogTitle> Edite o medicamento </DialogTitle>
                 <DialogDescription>
-                    <form 
-                    onSubmit={ async (e) => {
-                      e.preventDefault();
-
-                      const medicamentoAtualizado = {
-                        nome: novoNome,
-                        dosagem: novaDosagem,
-                        horario: novoHorario
-                      }
-
-                      await API_MideLembrete.update(id, medicamentoAtualizado)
-                      setOpen(false)
-                      mostrarALert("Medicamento Atualizado", "O medicamento foi atualizado com sucesso")
-                      onUpdate()
-                    }
-                    }>
+                    <Form
+                    action={async (formData: FormData)=>{
+                        await medicamentoEditado(formData, id);
+                        onUpdate()
+                        setOpen(false)
+                        mostrarALert("Medicamento Editado", "O medicamento foi editado com sucesso") 
+                    } } 
+                      >
                         <div className="flex flex-col justify-start pl-2">
                             <label className="font-medium pb-1"> Nome do medicamento </label>
                             <input
                                 type="text"
                                 placeholder={name}
-                                onChange={(e) => {
-                                  setNovoNome(e.target.value);
-                                }}
+                                name="nome"
                                 className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8] placeholder:text-[#737882]"
                             />
                         </div>
@@ -192,9 +181,7 @@ return (
                             <input
                                 type="number"
                                 placeholder={dosagem.toString()}
-                                onChange={(e) => {
-                                  setNovaDosagem(parseInt(e.target.value));
-                                }} 
+                                name="dosagem"
                                 className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8] placeholder:text-[#737882]"
                             />
                         </div>
@@ -203,17 +190,14 @@ return (
                             <label className="font-medium pb-1"> Horários </label>
                             
                                 <input
-                                    
-                                    type="time"
-                                    onChange={(e) => {
-                                      setNovoHorario(e.target.value);
-                                    }} 
+                                    type="time" 
                                     required
+                                    name="horario"
                                     className="p-2 bg-[#020817] rounded-md w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8] placeholder:text-[#737882]"
                                 />
                         </div>
 
-                        <div>
+                        {/* <div>
                             <p
                                 className="bg-[#020817] rounded-md p-2 w-full mb-4 flex justify-center items-center gap-2 cursor-pointer hover:bg-[#1D4ED8] hover:text-white"
                                 onClick={() => {
@@ -223,7 +207,7 @@ return (
                                 <CiClock2 />
                                 <span className="font-medium text-center text-[14px]"> Adicionar horário </span>
                             </p>
-                        </div>
+                        </div> */}
 
                         <button
                             type='submit'
@@ -231,7 +215,7 @@ return (
                         >
                             Salvar Medicamento
                         </button>
-                    </form>
+                    </Form>
                 </DialogDescription>
               </DialogHeader>
             </DialogContent>
