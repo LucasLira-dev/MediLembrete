@@ -104,7 +104,7 @@ return (
             size={16}
             className="text-[#F37272] cursor-pointer"
             onClick={() => {
-              API_MideLembrete.delete(id)
+              API_MideLembrete.medicamentos.delete(id)
               mostrarALert("Medicamento Deletado", "O medicamento foi deletado com sucesso")
               setIsDeleted(true);
             }}

@@ -3,32 +3,40 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Eye, EyeOff, Mail, Lock, LogIn } from "lucide-react"
+import { Eye, EyeOff, Mail, Lock, UserPlus } from "lucide-react"
 import Link from "next/link"
 import Form from "next/form"
-import fazerLogin from "./cadastro/actions"
+import fazerLogin from "./actions"
 
-export default function LoginPageSimplified() {
-    
+export default function RegisterPage() {
+  
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault()
-//     setIsLoading(true)
 
-//     // Simular chamada de API
-//     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-//     console.log("Login:", { email, password })
-//     setIsLoading(false)
-//   }
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault()
+  //   setIsLoading(true)
+
+  //   // Simular chamada de API
+  //   await new Promise((resolve) => setTimeout(resolve, 2000))
+
+  //   console.log("Register:", { email: formData.email, password: formData.password })
+  //   setIsLoading(false)
+  //   alert("Conta criada com sucesso!")
+  // }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950">
       {/* Header */}
-      <header className="flex items-center justify-center p-6">
-        <div className="text-2xl font-bold text-blue-400">MediLembrete</div>
+      <header className="flex items-center justify-between p-6">
+        <Link href="/" className="text-2xl font-bold text-blue-400">
+          MediLembrete
+        </Link>
+        <Link href="/" className="text-sm text-gray-400 hover:text-gray-300 hover:underline">
+          Voltar ao login
+        </Link>
       </header>
 
       {/* Main Content */}
@@ -37,22 +45,27 @@ export default function LoginPageSimplified() {
           <div className="rounded-lg border border-gray-700 bg-gray-800 p-8 shadow-xl">
             {/* Header do formulário */}
             <div className="mb-8 text-center">
-              <h1 className="text-2xl font-bold text-gray-100">Bem-vindo de volta</h1>
-              <p className="mt-3 text-gray-400">Entre na sua conta para gerenciar seus medicamentos</p>
+              <h1 className="text-2xl font-bold text-gray-100">Criar conta</h1>
+              <p className="mt-3 text-gray-400">Cadastre-se para começar a gerenciar seus medicamentos</p>
             </div>
 
-            {/* Formulário de Login */}
+            {/* Formulário de Cadastro */}
             {isLoading ? (
               <div className="flex justify-center py-12">
-                <LoadingComponent message="Fazendo login..." svgSize={80} />
+                <LoadingComponent message="Criando sua conta..." svgSize={80} />
               </div>
             ) : (
-              <Form 
-              action={
-                async (formData: FormData) => {
-                   await fazerLogin(formData)
-                   setIsLoading(true)
-                }}>
+              <Form
+               action={
+                    async (formData: FormData) => {
+                        const resposta = await fazerLogin(formData)
+                        if (resposta && resposta.userId) {
+                          localStorage.setItem("userId", resposta.userId);
+                        }
+                        setIsLoading(true)
+                    }}
+              className="space-y-8">
+                {/* Campo Email */}
                 <div className="space-y-3">
                   <label htmlFor="email" className="block text-sm font-medium text-gray-300">
                     Email
@@ -62,7 +75,6 @@ export default function LoginPageSimplified() {
                       <Mail className="h-4 w-4 text-gray-400" />
                     </div>
                     <input
-                      id="email"
                       type="email"
                       name="email"
                       placeholder="seu@email.com"
@@ -82,7 +94,6 @@ export default function LoginPageSimplified() {
                       <Lock className="h-4 w-4 text-gray-400" />
                     </div>
                     <input
-                      id="password"
                       type={showPassword ? "text" : "password"}
                       name="senha"
                       placeholder="••••••••"
@@ -101,26 +112,26 @@ export default function LoginPageSimplified() {
                   </div>
                 </div>
 
-                {/* Botão de Login */}
+                {/* Botão de Cadastro */}
                 <div className="pt-4">
                   <button
                     type="submit"
                     disabled={isLoading}
                     className="flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <LogIn className="mr-2 h-4 w-4" />
-                    Entrar
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    Criar conta
                   </button>
                 </div>
               </Form>
             )}
 
-            {/* Link para Cadastro */}
+            {/* Link para Login */}
             <div className="mt-8 text-center">
               <p className="text-gray-400">
-                Não tem uma conta?{" "}
-                <Link href="/cadastro" className="text-blue-400 hover:text-blue-300 hover:underline focus:outline-none">
-                  Cadastre-se aqui
+                Já tem uma conta?{" "}
+                <Link href="/" className="text-blue-400 hover:text-blue-300 hover:underline">
+                  Faça login aqui
                 </Link>
               </p>
             </div>
