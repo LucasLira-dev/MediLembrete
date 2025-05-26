@@ -101,6 +101,10 @@ export default function Home() {
 
             <Form
               action={async (formData: FormData) => {
+                const userId = localStorage.getItem("userId");
+                if (userId) {
+                   formData.append("userId", userId);
+                }
                 await cadastrarMedicamento(formData);
                 buscarMedicamentos();
                 mostrarALert("Medicamento cadastrado com sucesso!", "O medicamento foi adicionado à sua lista.");

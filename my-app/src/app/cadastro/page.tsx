@@ -6,12 +6,15 @@ import { useState } from "react"
 import { Eye, EyeOff, Mail, Lock, UserPlus } from "lucide-react"
 import Link from "next/link"
 import Form from "next/form"
-import fazerLogin from "./actions"
+
+import cadastrarUsuario from "./actions"
+import { useRouter } from "next/navigation"
 
 export default function RegisterPage() {
   
   const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  // const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
 
 
 
@@ -49,21 +52,21 @@ export default function RegisterPage() {
               <p className="mt-3 text-gray-400">Cadastre-se para começar a gerenciar seus medicamentos</p>
             </div>
 
-            {/* Formulário de Cadastro */}
-            {isLoading ? (
+           
+            {/* {isLoading ? (
               <div className="flex justify-center py-12">
                 <LoadingComponent message="Criando sua conta..." svgSize={80} />
               </div>
-            ) : (
+            ) : ( */}
               <Form
                action={
-                    async (formData: FormData) => {
-                        const resposta = await fazerLogin(formData)
-                        if (resposta && resposta.userId) {
-                          localStorage.setItem("userId", resposta.userId);
-                        }
-                        setIsLoading(true)
-                    }}
+                  async(formData: FormData) => {
+                    const resposta = await cadastrarUsuario(formData)
+                    localStorage.setItem("userId", (resposta.userId))
+                    router.push("/medicamentos")
+                    alert("Conta criada com sucesso!")
+                  }
+               }
               className="space-y-8">
                 {/* Campo Email */}
                 <div className="space-y-3">
@@ -116,7 +119,7 @@ export default function RegisterPage() {
                 <div className="pt-4">
                   <button
                     type="submit"
-                    disabled={isLoading}
+                    // disabled={isLoading}
                     className="flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <UserPlus className="mr-2 h-4 w-4" />
@@ -124,7 +127,7 @@ export default function RegisterPage() {
                   </button>
                 </div>
               </Form>
-            )}
+            )
 
             {/* Link para Login */}
             <div className="mt-8 text-center">
@@ -142,81 +145,81 @@ export default function RegisterPage() {
   )
 }
 
-function LoadingComponent({ message, svgSize }: { message?: string; svgSize?: number }) {
-  return (
-    <div className="inline-flex flex-col items-center justify-center rounded-lg border border-gray-700 bg-gray-800 p-6 text-gray-100">
-      <div className="mb-3 text-center">
-        <svg
-          width={svgSize || 120}
-          height={svgSize || 120}
-          viewBox="0 0 120 120"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          {/* Círculo de carregamento externo */}
-          <circle cx="60" cy="60" r="54" stroke="#1e3a8a" strokeWidth="6" />
+// function LoadingComponent({ message, svgSize }: { message?: string; svgSize?: number }) {
+//   return (
+//     <div className="inline-flex flex-col items-center justify-center rounded-lg border border-gray-700 bg-gray-800 p-6 text-gray-100">
+//       <div className="mb-3 text-center">
+//         <svg
+//           width={svgSize || 120}
+//           height={svgSize || 120}
+//           viewBox="0 0 120 120"
+//           fill="none"
+//           xmlns="http://www.w3.org/2000/svg"
+//         >
+//           {/* Círculo de carregamento externo */}
+//           <circle cx="60" cy="60" r="54" stroke="#1e3a8a" strokeWidth="6" />
 
-          {/* Círculo de carregamento animado */}
-          <circle
-            cx="60"
-            cy="60"
-            r="54"
-            stroke="#60a5fa"
-            strokeWidth="6"
-            strokeLinecap="round"
-            strokeDasharray="339.292"
-            strokeDashoffset="169.646"
-            className="animate-spin"
-            style={{ animationDuration: "2s" }}
-          />
+//           {/* Círculo de carregamento animado */}
+//           <circle
+//             cx="60"
+//             cy="60"
+//             r="54"
+//             stroke="#60a5fa"
+//             strokeWidth="6"
+//             strokeLinecap="round"
+//             strokeDasharray="339.292"
+//             strokeDashoffset="169.646"
+//             className="animate-spin"
+//             style={{ animationDuration: "2s" }}
+//           />
 
-          {/* Frasco de remédio */}
-          <g className="animate-pulse" style={{ animationDuration: "2s" }}>
-            <path
-              d="M45 35H75V80C75 85.5228 70.5228 90 65 90H55C49.4772 90 45 85.5228 45 80V35Z"
-              fill="#60a5fa"
-              fillOpacity="0.3"
-            />
-            <path d="M42 35H78V40H42V35Z" fill="#60a5fa" />
-            <path d="M48 30H72V35H48V30Z" fill="#60a5fa" />
+//           {/* Frasco de remédio */}
+//           <g className="animate-pulse" style={{ animationDuration: "2s" }}>
+//             <path
+//               d="M45 35H75V80C75 85.5228 70.5228 90 65 90H55C49.4772 90 45 85.5228 45 80V35Z"
+//               fill="#60a5fa"
+//               fillOpacity="0.3"
+//             />
+//             <path d="M42 35H78V40H42V35Z" fill="#60a5fa" />
+//             <path d="M48 30H72V35H48V30Z" fill="#60a5fa" />
 
-            {/* Pílulas animadas */}
-            <circle cx="55" cy="50" r="5" fill="#f87171" className="animate-bounce" />
-            <circle
-              cx="65"
-              cy="65"
-              r="5"
-              fill="#4ade80"
-              className="animate-bounce"
-              style={{ animationDelay: "0.3s", animationDuration: "1.3s" }}
-            />
-            <circle
-              cx="55"
-              cy="75"
-              r="5"
-              fill="#f87171"
-              className="animate-bounce"
-              style={{ animationDelay: "0.1s", animationDuration: "0.9s" }}
-            />
-          </g>
+//             {/* Pílulas animadas */}
+//             <circle cx="55" cy="50" r="5" fill="#f87171" className="animate-bounce" />
+//             <circle
+//               cx="65"
+//               cy="65"
+//               r="5"
+//               fill="#4ade80"
+//               className="animate-bounce"
+//               style={{ animationDelay: "0.3s", animationDuration: "1.3s" }}
+//             />
+//             <circle
+//               cx="55"
+//               cy="75"
+//               r="5"
+//               fill="#f87171"
+//               className="animate-bounce"
+//               style={{ animationDelay: "0.1s", animationDuration: "0.9s" }}
+//             />
+//           </g>
 
-          {/* Texto "Loading" */}
-          <text
-            x="60"
-            y="110"
-            fontFamily="sans-serif"
-            fontSize="10"
-            fontWeight="bold"
-            fill="#f9fafb"
-            textAnchor="middle"
-            className="animate-pulse"
-            style={{ animationDuration: "1.5s" }}
-          >
-            CARREGANDO
-          </text>
-        </svg>
-      </div>
-      {message && <h3 className="mb-1 text-base font-medium">{message}</h3>}
-    </div>
-  )
-}
+//           {/* Texto "Loading" */}
+//           <text
+//             x="60"
+//             y="110"
+//             fontFamily="sans-serif"
+//             fontSize="10"
+//             fontWeight="bold"
+//             fill="#f9fafb"
+//             textAnchor="middle"
+//             className="animate-pulse"
+//             style={{ animationDuration: "1.5s" }}
+//           >
+//             CARREGANDO
+//           </text>
+//         </svg>
+//       </div>
+//       {message && <h3 className="mb-1 text-base font-medium">{message}</h3>}
+//     </div>
+//   )
+// }
