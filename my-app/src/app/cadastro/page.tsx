@@ -1,22 +1,29 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Eye, EyeOff, Mail, Lock, UserPlus } from "lucide-react"
-import Link from "next/link"
-import Form from "next/form"
+import { useState } from "react";
+import { Eye, EyeOff, Mail, Lock, UserPlus } from "lucide-react";
+import Link from "next/link";
+import Form from "next/form";
 
-import cadastrarUsuario from "./actions"
-import { useRouter } from "next/navigation"
+import cadastrarUsuario from "./actions";
+import { useRouter } from "next/navigation";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function RegisterPage() {
-  
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
   // const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
+  const router = useRouter();
 
+  const [alerta, setAlerta] = useState<{
+    title: string;
+    description: string;
+  } | null>(null);
 
+  const mostrarALert = (title: string, description: string) => {
+    setAlerta({ title, description });
+  };
 
   // const handleSubmit = async (e: React.FormEvent) => {
   //   e.preventDefault()
@@ -31,46 +38,74 @@ export default function RegisterPage() {
   // }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950">
-      {/* Header */}
-      <header className="flex items-center justify-between p-6">
-        <Link href="/" className="text-2xl font-bold text-blue-400">
-          MediLembrete
-        </Link>
-        <Link href="/" className="text-sm text-gray-400 hover:text-gray-300 hover:underline">
-          Voltar ao login
-        </Link>
-      </header>
+    <>
+      {alerta && (
+        <div className="fixed top-65 left-1/2 -translate-x-1/2 z-50 w-full max-w-md">
+          <Alert className="bg-[#1E2C48] text-[#FFFFFF] p-4 rounded-md flex flex-col justify-center items-center gap-2">
+            <AlertTitle>{alerta.title}</AlertTitle>
+            <AlertDescription>{alerta.description}</AlertDescription>
+            <button
+              onClick={() => setAlerta(null)}
+              className="rounded-md bg-[#16A34A] px-10 py-2 text-center cursor-pointer"
+            >
+              Ok
+            </button>
+          </Alert>
+        </div>
+      )}
+          
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950">
+        {/* Header */}
+        <header className="flex items-center justify-between p-6">
+          <Link href="/" className="text-2xl font-bold text-blue-400">
+            MediLembrete
+          </Link>
+          <Link
+            href="/"
+            className="text-sm text-gray-400 hover:text-gray-300 hover:underline"
+          >
+            Voltar ao login
+          </Link>
+        </header>
 
-      {/* Main Content */}
-      <main className="flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md">
-          <div className="rounded-lg border border-gray-700 bg-gray-800 p-8 shadow-xl">
-            {/* Header do formulário */}
-            <div className="mb-8 text-center">
-              <h1 className="text-2xl font-bold text-gray-100">Criar conta</h1>
-              <p className="mt-3 text-gray-400">Cadastre-se para começar a gerenciar seus medicamentos</p>
-            </div>
-
-           
-            {/* {isLoading ? (
+        {/* Main Content */}
+        <main className="flex items-center justify-center px-4 py-12">
+          <div className="w-full max-w-md">
+            <div className="rounded-lg border border-gray-700 bg-gray-800 p-8 shadow-xl">
+              {/* Header do formulário */}
+              <div className="mb-8 text-center">
+                <h1 className="text-2xl font-bold text-gray-100">
+                  Criar conta
+                </h1>
+                <p className="mt-3 text-gray-400">
+                  Cadastre-se para começar a gerenciar seus medicamentos
+                </p>
+              </div>
+              {/* {isLoading ? (
               <div className="flex justify-center py-12">
                 <LoadingComponent message="Criando sua conta..." svgSize={80} />
               </div>
             ) : ( */}
               <Form
-               action={
-                  async(formData: FormData) => {
-                    const resposta = await cadastrarUsuario(formData)
-                    localStorage.setItem("userId", (resposta.userId))
-                    router.push("/medicamentos")
-                    alert("Conta criada com sucesso!")
+                action={async (formData: FormData) => {
+                  setAlerta(null);
+                  const resposta = await cadastrarUsuario(formData);
+                  if (resposta.error) {
+                    mostrarALert("Erro ao cadastrar", resposta.error);
+                    return;
                   }
-               }
-              className="space-y-8">
+                  localStorage.setItem("userId", resposta.userId);
+                  router.push("/medicamentos");
+                  alert("Conta criada com sucesso!");
+                }}
+                className="space-y-8"
+              >
                 {/* Campo Email */}
                 <div className="space-y-3">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+                    <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-300"
+                  >
                     Email
                   </label>
                   <div className="relative">
@@ -89,7 +124,10 @@ export default function RegisterPage() {
 
                 {/* Campo Senha */}
                 <div className="space-y-3">
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-300">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-gray-300"
+                  >
                     Senha
                   </label>
                   <div className="relative">
@@ -109,7 +147,11 @@ export default function RegisterPage() {
                         onClick={() => setShowPassword(!showPassword)}
                         className="text-gray-400 hover:text-gray-300 focus:outline-none focus:text-gray-300"
                       >
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -127,22 +169,24 @@ export default function RegisterPage() {
                   </button>
                 </div>
               </Form>
-            )
-
-            {/* Link para Login */}
-            <div className="mt-8 text-center">
-              <p className="text-gray-400">
-                Já tem uma conta?{" "}
-                <Link href="/" className="text-blue-400 hover:text-blue-300 hover:underline">
-                  Faça login aqui
-                </Link>
-              </p>
+              {/* Link para Login */}
+              <div className="mt-8 text-center">
+                <p className="text-gray-400">
+                  Já tem uma conta?{" "}
+                  <Link
+                    href="/"
+                    className="text-blue-400 hover:text-blue-300 hover:underline"
+                  >
+                    Faça login aqui
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
-    </div>
-  )
+        </main>
+      </div>
+    </>
+  );
 }
 
 // function LoadingComponent({ message, svgSize }: { message?: string; svgSize?: number }) {

@@ -1,126 +1,279 @@
+// "use client"
+
+// import type React from "react"
+
+// import { useState } from "react"
+// import { Eye, EyeOff, Mail, Lock, LogIn } from "lucide-react"
+// import Link from "next/link"
+// import Form from "next/form"
+
+// // import { useRouter } from "next/navigation"
+
+// // import { handleLogin } from "./actions"
+
+
+// import { signIn } from "next-auth/react"
+
+// export default function LoginPageSimplified() {
+    
+//   const [showPassword, setShowPassword] = useState(false)
+//   // const [isLoading, setIsLoading] = useState(false)
+
+// //   const handleSubmit = async (e: React.FormEvent) => {
+// //     e.preventDefault()
+// //     setIsLoading(true)
+
+// //     // Simular chamada de API
+// //     await new Promise((resolve) => setTimeout(resolve, 2000))
+
+// //     console.log("Login:", { email, password })
+// //     setIsLoading(false)
+// //   }
+
+//   // const router = useRouter()
+
+
+//   return (
+//     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950">
+//       {/* Header */}
+//       <header className="flex items-center justify-center p-6">
+//         <div className="text-2xl font-bold text-blue-400">MediLembrete</div>
+//       </header>
+
+//       {/* Main Content */}
+//       <main className="flex items-center justify-center px-4 py-12">
+//         <div className="w-full max-w-md">
+//           <div className="rounded-lg border border-gray-700 bg-gray-800 p-8 shadow-xl">
+//             {/* Header do formulário */}
+//             <div className="mb-8 text-center">
+//               <h1 className="text-2xl font-bold text-gray-100">Bem-vindo de volta</h1>
+//               <p className="mt-3 text-gray-400">Entre na sua conta para gerenciar seus medicamentos</p>
+//             </div>
+
+           
+           
+//             {/* {isLoading ? (
+//               <div className="flex justify-center py-12">
+//                 <LoadingComponent message="Fazendo login..." svgSize={80} />
+//               </div>
+//             ) : ( */}
+
+
+//                 <Form
+//                   action={async (formData: FormData) => {
+//                     const email = formData.get("email")?.toString() || "";
+//                     const senha = formData.get("senha")?.toString() || "";
+
+//                     const result = await signIn("credentials", {
+//                       email,
+//                       senha,
+//                       redirect: false,
+//                     });
+
+//                     if (result?.error) {
+//                       console.log("Email ou senha inválidos");
+//                     } else {
+//                       window.location.href = "/"; // ou useRouter().push('/')
+//                     }
+//                   }}
+//                 >
+//                 <div className="space-y-3">
+//                   <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+//                     Email
+//                   </label>
+//                   <div className="relative">
+//                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+//                       <Mail className="h-4 w-4 text-gray-400" />
+//                     </div>
+//                     <input
+//                       id="email"
+//                       type="email"
+//                       name="email"
+//                       placeholder="seu@email.com"
+//                       className="block w-full rounded-md border border-gray-600 bg-gray-700 py-3 pl-10 pr-3 text-gray-100 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+//                       required
+//                     />
+//                   </div>
+//                 </div>
+
+//                 {/* Campo Senha */}
+//                 <div className="space-y-3">
+//                   <label htmlFor="password" className="block text-sm font-medium text-gray-300">
+//                     Senha
+//                   </label>
+//                   <div className="relative">
+//                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+//                       <Lock className="h-4 w-4 text-gray-400" />
+//                     </div>
+//                     <input
+//                       id="password"
+//                       type={showPassword ? "text" : "password"}
+//                       name="senha"
+//                       placeholder="••••••••"
+//                       className="block w-full rounded-md border border-gray-600 bg-gray-700 py-3 pl-10 pr-12 text-gray-100 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+//                       required
+//                     />
+//                     <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+//                       <button
+//                         type="button"
+//                         onClick={() => setShowPassword(!showPassword)}
+//                         className="text-gray-400 hover:text-gray-300 focus:outline-none focus:text-gray-300"
+//                       >
+//                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+//                       </button>
+//                     </div>
+//                   </div>
+//                 </div>
+
+//                 {/* Botão de Login */}
+//                 <div className="pt-4">
+//                   <button
+//                     type="submit"
+//                     // disabled={isLoading}
+//                     className="flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+//                   >
+//                     <LogIn className="mr-2 h-4 w-4" />
+//                     Entrar
+//                   </button>
+//                 </div>
+//               </Form>
+            
+
+//             {/* Link para Cadastro */}
+//             <div className="mt-8 text-center">
+//               <p className="text-gray-400">
+//                 Não tem uma conta?{" "}
+//                 <Link href="/cadastro" className="text-blue-400 hover:text-blue-300 hover:underline focus:outline-none">
+//                   Cadastre-se aqui
+//                 </Link>
+//               </p>
+//             </div>
+//           </div>
+//         </div>
+//       </main>
+//     </div>
+//   )
+// }
+
+
+
+
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
+import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { Eye, EyeOff, Mail, Lock, LogIn } from "lucide-react"
 import Link from "next/link"
-import Form from "next/form"
-// import fazerLogin from "./cadastro/actions"
 
 export default function LoginPageSimplified() {
-    
   const [showPassword, setShowPassword] = useState(false)
-  // const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const router = useRouter()
 
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault()
-//     setIsLoading(true)
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
-//     // Simular chamada de API
-//     await new Promise((resolve) => setTimeout(resolve, 2000))
+    const form = e.currentTarget
+    const email = (form.email as HTMLInputElement).value
+    const senha = (form.senha as HTMLInputElement).value
 
-//     console.log("Login:", { email, password })
-//     setIsLoading(false)
-//   }
+    const result = await signIn("credentials", {
+      email,
+      senha,
+      redirect: false, // importante: evita redirecionamento automático
+    })
+
+    if (result?.error) {
+      setError("Email ou senha inválidos")
+    } else {
+      router.push("/medicamentos") // redireciona para a página após login
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950">
-      {/* Header */}
       <header className="flex items-center justify-center p-6">
         <div className="text-2xl font-bold text-blue-400">MediLembrete</div>
       </header>
 
-      {/* Main Content */}
       <main className="flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           <div className="rounded-lg border border-gray-700 bg-gray-800 p-8 shadow-xl">
-            {/* Header do formulário */}
             <div className="mb-8 text-center">
               <h1 className="text-2xl font-bold text-gray-100">Bem-vindo de volta</h1>
               <p className="mt-3 text-gray-400">Entre na sua conta para gerenciar seus medicamentos</p>
             </div>
 
-           
-           
-            {/* {isLoading ? (
-              <div className="flex justify-center py-12">
-                <LoadingComponent message="Fazendo login..." svgSize={80} />
+            {error && <p className="mb-4 text-center text-sm text-red-500">{error}</p>}
+
+            <form onSubmit={handleLogin}>
+              {/* Email */}
+              <div className="space-y-3">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+                  Email
+                </label>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <Mail className="h-4 w-4 text-gray-400" />
+                  </div>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="seu@email.com"
+                    className="block w-full rounded-md border border-gray-600 bg-gray-700 py-3 pl-10 pr-3 text-gray-100 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
               </div>
-            ) : ( */}
-              <Form 
-              action={
-                  (formData: FormData) => {
-                    console.log("Form data:", formData)
-                  }
-                 }>
-                <div className="space-y-3">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-                    Email
-                  </label>
-                  <div className="relative">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                      <Mail className="h-4 w-4 text-gray-400" />
-                    </div>
-                    <input
-                      id="email"
-                      type="email"
-                      name="email"
-                      placeholder="seu@email.com"
-                      className="block w-full rounded-md border border-gray-600 bg-gray-700 py-3 pl-10 pr-3 text-gray-100 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      required
-                    />
+
+              {/* Senha */}
+              <div className="mt-4 space-y-3">
+                <label htmlFor="senha" className="block text-sm font-medium text-gray-300">
+                  Senha
+                </label>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <Lock className="h-4 w-4 text-gray-400" />
+                  </div>
+                  <input
+                    id="senha"
+                    name="senha"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    placeholder="••••••••"
+                    className="block w-full rounded-md border border-gray-600 bg-gray-700 py-3 pl-10 pr-12 text-gray-100 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="text-gray-400 hover:text-gray-300 focus:outline-none"
+                    >
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
                   </div>
                 </div>
+              </div>
 
-                {/* Campo Senha */}
-                <div className="space-y-3">
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-300">
-                    Senha
-                  </label>
-                  <div className="relative">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                      <Lock className="h-4 w-4 text-gray-400" />
-                    </div>
-                    <input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      name="senha"
-                      placeholder="••••••••"
-                      className="block w-full rounded-md border border-gray-600 bg-gray-700 py-3 pl-10 pr-12 text-gray-100 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      required
-                    />
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="text-gray-400 hover:text-gray-300 focus:outline-none focus:text-gray-300"
-                      >
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                      </button>
-                    </div>
-                  </div>
-                </div>
+              {/* Botão */}
+              <div className="pt-6">
+                <button
+                  type="submit"
+                  className="flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+                >
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Entrar
+                </button>
+              </div>
+            </form>
 
-                {/* Botão de Login */}
-                <div className="pt-4">
-                  <button
-                    type="submit"
-                    // disabled={isLoading}
-                    className="flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <LogIn className="mr-2 h-4 w-4" />
-                    Entrar
-                  </button>
-                </div>
-              </Form>
-            
-
-            {/* Link para Cadastro */}
+            {/* Link cadastro */}
             <div className="mt-8 text-center">
               <p className="text-gray-400">
                 Não tem uma conta?{" "}
-                <Link href="/cadastro" className="text-blue-400 hover:text-blue-300 hover:underline focus:outline-none">
+                <Link href="/cadastro" className="text-blue-400 hover:text-blue-300 hover:underline">
                   Cadastre-se aqui
                 </Link>
               </p>
@@ -131,6 +284,7 @@ export default function LoginPageSimplified() {
     </div>
   )
 }
+
 
 // function LoadingComponent({ message, svgSize }: { message?: string; svgSize?: number }) {
 //   return (
