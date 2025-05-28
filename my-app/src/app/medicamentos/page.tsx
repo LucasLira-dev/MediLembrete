@@ -18,11 +18,15 @@ import Form from 'next/form'
 
 import cadastrarMedicamento from "./actions";
 
+import { useSession } from "next-auth/react";
+
 export default function Home() {
   
   const [alerta, setAlerta] = useState<{title: string, description: string} | null>(null);
 
-  const userId = localStorage.getItem("userId");
+  const { data: session } = useSession();
+
+  const userId = session?.user?.id;
   
   
   const mostrarALert = (title: string,  description: string) => {
@@ -100,16 +104,14 @@ export default function Home() {
             </h2>
 
             <Form
-              action={async (formData: FormData) => {
-                const userId = localStorage.getItem("userId");
+             action={async (formData: FormData) => {
                 if (userId) {
-                   formData.append("userId", userId);
+                   formData.append("userId", userId.toString());
                 }
                 await cadastrarMedicamento(formData);
                 buscarMedicamentos();
                 mostrarALert("Medicamento cadastrado com sucesso!", "O medicamento foi adicionado à sua lista.");
-                
-              }}
+                }}
               className="flex flex-col gap-2 px-4 bg-[#04102E] rounded-md p-2  mb-4"
             >
               <div className="flex flex-col pl-2">

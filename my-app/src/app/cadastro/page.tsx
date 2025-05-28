@@ -11,19 +11,47 @@ import cadastrarUsuario from "./actions";
 import { useRouter } from "next/navigation";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
+import { signIn } from "next-auth/react";
+
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   // const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter();
 
   const [alerta, setAlerta] = useState<{
     title: string;
     description: string;
   } | null>(null);
 
-  const mostrarALert = (title: string, description: string) => {
-    setAlerta({ title, description });
-  };
+  // const mostrarALert = (title: string, description: string) => {
+  //   setAlerta({ title, description });
+  // };
+
+
+   const router = useRouter();
+  const [erro, setErro] = useState<string | null>(null);
+
+  async function handleCadastro(formData: FormData): Promise<void> {
+    setErro(null);
+    const resposta = await cadastrarUsuario(formData);
+
+    if (resposta?.error) {
+      setErro(resposta.error);
+      return;
+    }
+
+    // Login automático após cadastro
+    const loginRes = await signIn("credentials", {
+      email: resposta.email,
+      senha: resposta.senha,
+      redirect: false,
+    });
+
+    if (loginRes?.error) {
+      setErro("Erro ao fazer login após cadastro.");
+    } else {
+      router.push("/medicamentos");
+    }
+  }
 
   // const handleSubmit = async (e: React.FormEvent) => {
   //   e.preventDefault()
@@ -87,19 +115,12 @@ export default function RegisterPage() {
               </div>
             ) : ( */}
               <Form
-                action={async (formData: FormData) => {
-                  setAlerta(null);
-                  const resposta = await cadastrarUsuario(formData);
-                  if (resposta.error) {
-                    mostrarALert("Erro ao cadastrar", resposta.error);
-                    return;
-                  }
-                  localStorage.setItem("userId", resposta.userId);
-                  router.push("/medicamentos");
-                  alert("Conta criada com sucesso!");
-                }}
+                action={handleCadastro}
                 className="space-y-8"
               >
+              
+      {erro && <div className="text-red-500">{erro}</div>}
+     
                 {/* Campo Email */}
                 <div className="space-y-3">
                     <label
