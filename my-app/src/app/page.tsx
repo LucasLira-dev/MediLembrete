@@ -1,16 +1,27 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Eye, EyeOff, Mail, Lock, LogIn } from "lucide-react"
 import Link from "next/link"
 
+import { useSession } from "next-auth/react";
+
 export default function LoginPageSimplified() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
+
+  const { status } = useSession()
   const router = useRouter()
 
+    useEffect(()=>{
+      if (status === "authenticated") {
+        router.replace('/medicamentos')
+      }
+    }, [status, router])
+    
+    
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -29,6 +40,8 @@ export default function LoginPageSimplified() {
     } else {
       router.push("/medicamentos") // redireciona para a página após login
     }
+
+    
   }
 
   return (

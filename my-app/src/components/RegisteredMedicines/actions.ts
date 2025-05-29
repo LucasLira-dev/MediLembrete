@@ -17,6 +17,6 @@ export default async function medicamentoEditado(
     dosagem: dosagem,
     horario: horario
   }
-  console.log(medicamento)
+  console.log(medicamento, id)
   await API_MideLembrete.medicamentos.update(id, medicamento)
 }

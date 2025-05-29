@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Eye, EyeOff, Mail, Lock, UserPlus } from "lucide-react";
 import Link from "next/link";
 import Form from "next/form";
@@ -12,6 +12,8 @@ import { useRouter } from "next/navigation";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { signIn } from "next-auth/react";
+
+import { useSession } from "next-auth/react";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,8 +28,17 @@ export default function RegisterPage() {
   //   setAlerta({ title, description });
   // };
 
+  
+    const { status } = useSession()
+    const router = useRouter()
+  
+    useEffect(()=>{
+        if (status === "authenticated") {
+          router.replace('/medicamentos')
+        }
+    }, [status, router])
 
-   const router = useRouter();
+   
   const [erro, setErro] = useState<string | null>(null);
 
   async function handleCadastro(formData: FormData): Promise<void> {

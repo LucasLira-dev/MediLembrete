@@ -20,6 +20,7 @@ import cadastrarMedicamento from "./actions";
 
 import { useSession } from "next-auth/react";
 
+
 export default function Home() {
   
   const [alerta, setAlerta] = useState<{title: string, description: string} | null>(null);
@@ -27,7 +28,7 @@ export default function Home() {
   const { data: session } = useSession();
 
   const userId = session?.user?.id;
-  
+
   
   const mostrarALert = (title: string,  description: string) => {
     setAlerta({title, description});

@@ -89,7 +89,7 @@ return (
           <AlertTitle>{alerta.title}</AlertTitle>
           <AlertDescription>{alerta.description}</AlertDescription>
           <button
-          onClick={()=>setAlerta(null)}
+          onClick={() => { setAlerta(null); onUpdate(); }}
           className="rounded-md bg-[#16A34A] px-10 py-2 text-center cursor-pointer"> Ok </button>
         </Alert>
       </div>
@@ -107,6 +107,7 @@ return (
               API_MideLembrete.medicamentos.delete(id)
               mostrarALert("Medicamento Deletado", "O medicamento foi deletado com sucesso")
               setIsDeleted(true);
+              onUpdate();
             }}
           />
         </div>
@@ -172,6 +173,7 @@ return (
                                 type="text"
                                 placeholder={name}
                                 name="nome"
+                                required
                                 className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8] placeholder:text-[#737882]"
                             />
                         </div>
@@ -182,6 +184,7 @@ return (
                                 type="number"
                                 placeholder={dosagem.toString()}
                                 name="dosagem"
+                                required
                                 className="bg-[#020817] rounded-md p-2 w-full mb-4 focus:outline-none focus:border-1 focus:border-[#1D4ED8] placeholder:text-[#737882]"
                             />
                         </div>
