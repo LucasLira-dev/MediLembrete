@@ -8,6 +8,7 @@ export const API_MideLembrete = {
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials: 'include',
                     body: JSON.stringify(usuario),
                 });
 
@@ -32,6 +33,7 @@ export const API_MideLembrete = {
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials: 'include',
                     body: JSON.stringify(usuario),
                 });
 
@@ -58,6 +60,7 @@ export const API_MideLembrete = {
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials: 'include' // Inclui cookies na requisição
                 });
 
                 if (!response.ok) {
@@ -79,6 +82,7 @@ export const API_MideLembrete = {
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials: 'include',
                     body: JSON.stringify(medicamento),
                 });
 
@@ -103,6 +107,7 @@ export const API_MideLembrete = {
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials: 'include',
                     body: JSON.stringify(medicamento),
                 });
 
@@ -127,6 +132,7 @@ export const API_MideLembrete = {
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials: 'include' 
                 });
 
                 const data = await response.json();
