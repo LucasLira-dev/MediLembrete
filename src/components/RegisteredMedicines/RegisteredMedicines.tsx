@@ -123,13 +123,14 @@ return (
            
               <div
                 data-tomou={tomei}
-                className="flex gap-2 justify-center items-center text-[12px] font-medium rounded-full bg-[#1E2C48] p-1 w-[80px] text-[#375cc3] data-[tomou=true]:text-[#16A34A]"
+                className="flex gap-2 justify-center items-center text-[12px] font-medium rounded-full bg-[#1E2C48] p-1 w-[100px] text-[#375cc3] data-[tomou=true]:text-[#16A34A]"
               >
-                <CiClock2 className="text-[#3B82F6]" />
+                <CiClock2 className="text-[#3B82F6] text-[26px]" />
                 <span> {horariosSalvos}</span>
-                {tomei && <FaCheck className="text-[#16A34A]" />}
+                {tomei && <FaCheck className="text-[#16A34A] text-[26px]"  />}
               </div>
             
+
           </div>
         </div>
 

@@ -9,7 +9,6 @@ import Form from "next/form";
 
 import cadastrarUsuario from "./actions";
 import { useRouter } from "next/navigation";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { signIn } from "next-auth/react";
 
@@ -17,18 +16,7 @@ import { useSession } from "next-auth/react";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false)
-
-  const [alerta, setAlerta] = useState<{
-    title: string;
-    description: string;
-  } | null>(null);
-
-  // const mostrarALert = (title: string, description: string) => {
-  //   setAlerta({ title, description });
-  // };
-
-  
+ 
     const { status } = useSession()
     const router = useRouter()
   
@@ -64,35 +52,9 @@ export default function RegisterPage() {
     }
   }
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault()
-  //   setIsLoading(true)
-
-  //   // Simular chamada de API
-  //   await new Promise((resolve) => setTimeout(resolve, 2000))
-
-  //   console.log("Register:", { email: formData.email, password: formData.password })
-  //   setIsLoading(false)
-  //   alert("Conta criada com sucesso!")
-  // }
 
   return (
-    <>
-      {alerta && (
-        <div className="fixed top-65 left-1/2 -translate-x-1/2 z-50 w-full max-w-md">
-          <Alert className="bg-[#1E2C48] text-[#FFFFFF] p-4 rounded-md flex flex-col justify-center items-center gap-2">
-            <AlertTitle>{alerta.title}</AlertTitle>
-            <AlertDescription>{alerta.description}</AlertDescription>
-            <button
-              onClick={() => setAlerta(null)}
-              className="rounded-md bg-[#16A34A] px-10 py-2 text-center cursor-pointer"
-            >
-              Ok
-            </button>
-          </Alert>
-        </div>
-      )}
-          
+    <> 
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950">
         {/* Header */}
         <header className="flex items-center justify-between p-6">
@@ -130,7 +92,7 @@ export default function RegisterPage() {
                 className="space-y-8"
               >
               
-      {erro && <div className="text-red-500">{erro}</div>}
+      {erro && <div className="text-red-500 text-center">{erro}</div>}
      
                 {/* Campo Email */}
                 <div className="space-y-3">
