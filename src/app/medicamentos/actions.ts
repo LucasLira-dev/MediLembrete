@@ -20,6 +20,6 @@ export default async function cadastrarMedicamento(
     dosagem: dosagem,
     horario: horario
   }
-  console.log(medicamento)
+ 
   await API_MideLembrete.medicamentos.create(medicamento)
 }

@@ -71,11 +71,11 @@ export default function Home() {
     <main className="flex flex-col min-h-screen gap-2">
       <Header />
 
-      <section className="flex flex-col mt-4 lg:flex-row lg:ml-4">
+      <section className="flex flex-col mt-4 md:justify-center xl:flex-row xl:ml-4">
         <article className="p-4 flex-1">
           <h2 className=" text-[22px] font-medium p-4">Seus Medicamentos</h2>
 
-          <div className="flex sm:justify-center sm:items-center md:items-center md:justify-start flex-col sm:flex-row sm:flex-wrap gap-2 min-h-[200px]">
+          <div className="flex sm:justify-center sm:items-center md:items-center md:justify-start flex-col sm:flex-row sm:flex-wrap gap-2 min-h-[200px]md:max-h-[450px] lg:max-h-[500px] overflow-y-auto">
             {medicamentos === undefined ? (
               <div className="w-full h-full">
                 <Loading className="h-full" />
@@ -98,7 +98,7 @@ export default function Home() {
           </div>
         </article>
 
-        <article className="p-4 flex-2 lg:max-w-[400px]">
+        <article className="p-4 flex-2 sm:w-[80vw] sm:justify-center md:justify-center xl:max-w-[400px]">
           <article className="bg-[#1f2937] flex flex-col rounded-md p-4 mb-4">
             <h2 className="mb-4 text-[22px] font-medium px-4">
               Adicionar Medicamento

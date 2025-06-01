@@ -95,7 +95,7 @@ return (
       </div>
     )}
     <article
-      className="bg-[#1F2937] sm:min-w-[280px] md:min-w-[320px] lg:min-w-[220px] xl:min-w-[300px] flex flex-col gap-4 justify-center rounded-md p-4 mb-4 data-[deleted=true]:hidden"
+      className="bg-[#1F2937] sm:min-w-[280px] md:min-w-[320px] lg:min-w-[280px] xl:min-w-[300px] flex flex-col gap-4 justify-center rounded-md p-4 mb-4 data-[deleted=true]:hidden "
       data-deleted={isDeleted}
     >
         <div className="flex justify-between items-center">
